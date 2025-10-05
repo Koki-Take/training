@@ -5,9 +5,14 @@ import Home from "./pages/Home";
 import Report from "./pages/Report";
 import NoneMatch from "./pages/NoMatch";
 import { AppLayout } from "./components/layout/AppLayout";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./theme/theme";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
     <Router>
       <Routes>
         <Route path="/" element={<AppLayout />}>
@@ -17,6 +22,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 

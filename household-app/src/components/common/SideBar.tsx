@@ -1,7 +1,20 @@
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, Toolbar, ListItemText } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Toolbar,
+  ListItemText,
+} from "@mui/material";
+import React, { CSSProperties } from "react";
 import InboxIcon from "@mui/icons-material/Inbox";
 import MailIcon from "@mui/icons-material/Mail";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import HomeIcon from "@mui/icons-material/Home";
+import { NavLink } from "react-router-dom";
 
 interface SideBarProps {
   drawerWidth: number;
@@ -10,44 +23,63 @@ interface SideBarProps {
   handleDrawerTransitionEnd: () => void;
 }
 
+interface MenuAitem {
+  text: string;
+  path: string;
+  icon: React.ComponentType;
+}
+
 const SideBar = ({
   drawerWidth,
   mobileOpen,
   handleDrawerClose,
   handleDrawerTransitionEnd,
 }: SideBarProps) => {
+  const MenuItems: MenuAitem[] = [
+    { text: "ホーム", path: "/", icon: HomeIcon },
+    { text: "レポート", path: "/report", icon: QueryStatsIcon },
+  ];
+
+  const defaultStyleLink: CSSProperties = {
+    textDecoration: "none",
+    color: "inherit",
+    display: "block",
+  };
+
+  const activeStyleLink: CSSProperties = {
+    backgroundColor: "rgba(0,0,0,0.08)",
+  };
 
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        {MenuItems.map((item, index) => (
+          <NavLink
+            key={index} // NavLink に key を追加
+            to={item.path}
+            style={({ isActive }) => {
+              console.log("選択されたメニューは", item.text, isActive);
+              return {
+                ...defaultStyleLink,
+                ...(isActive ? activeStyleLink : {}),
+              };
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <item.icon />
+                </ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
         ))}
       </List>
     </div>
-  );    
+  );
 
   return (
     <Box
