@@ -64,7 +64,7 @@ export default function ResponsiveDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+           家計簿 アプリ
           </Typography>
         </Toolbar>
       </AppBar>
